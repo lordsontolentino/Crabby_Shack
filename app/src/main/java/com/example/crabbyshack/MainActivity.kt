@@ -1,5 +1,6 @@
 package com.example.crabbyshack
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.modifier.modifierLocalOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -70,9 +72,25 @@ fun MainLayout()
 @Composable
 fun MainMenu() //Dine in or Take out
 {
+    val context = LocalContext.current
+
     var boxWidth: Int = 175
     var boxHeight: Int = 225
     var textSize: Int = 20
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth(),
+            text = "Welcome to Crabby Shack!",
+            textAlign = TextAlign.Center,
+            fontSize = 25.sp
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -81,20 +99,6 @@ fun MainMenu() //Dine in or Take out
         verticalArrangement = Arrangement.Center
     )
     {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text = "Welcome to Crabby Shack!",
-                textAlign = TextAlign.Center,
-                fontSize = 25.sp
-            )
-        }
-
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -103,6 +107,9 @@ fun MainMenu() //Dine in or Take out
             Button(
                 onClick = {
                     //Code for Dine-in to be passed using Intent
+                    val intent = Intent(context, MenuItems::class.java)
+                    intent.putExtra("orderType", "Dine In")
+                    context.startActivity(intent)
                 },
                 modifier = Modifier
                     .width(boxWidth.dp)
@@ -113,7 +120,7 @@ fun MainMenu() //Dine in or Take out
             )
             {
                 Text(
-                    text = "Dine-in",
+                    text = "Dine in",
                     fontSize = textSize.sp
                 )
             }
@@ -121,6 +128,9 @@ fun MainMenu() //Dine in or Take out
             Button(
                 onClick = {
                     //Code for Takeout to be passed using Intent
+                    val intent = Intent(context, MenuItems::class.java)
+                    intent.putExtra("orderType", "Take out")
+                    context.startActivity(intent)
                 },
                 modifier = Modifier
                     .width(boxWidth.dp)
@@ -131,7 +141,7 @@ fun MainMenu() //Dine in or Take out
             )
             {
                 Text(
-                    text = "Takeout",
+                    text = "Take out",
                     fontSize = textSize.sp
                 )
             }
