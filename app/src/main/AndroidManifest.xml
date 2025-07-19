@@ -13,6 +13,11 @@
         android:theme="@style/Theme.CrabbyShack"
         tools:targetApi="31">
         <activity
+            android:name=".MenuItems"
+            android:exported="false"
+            android:label="@string/title_activity_menu_items"
+            android:theme="@style/Theme.CrabbyShack" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"

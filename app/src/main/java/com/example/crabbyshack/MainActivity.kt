@@ -4,13 +4,32 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.modifier.modifierLocalOf
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.crabbyshack.ui.theme.CrabbyShackTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,14 +38,103 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CrabbyShackTheme {
-
+                MainLayout()
             }
         }
     }
 }
 
+@Preview (widthDp = 393, heightDp = 851)
 @Composable
-fun Order()
+fun MainLayout()
 {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.Center
+    )
+    {
+        Column(
+            modifier = Modifier
+                .padding(5.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
+        {
+            MainMenu()
+        }
+    }
+}
 
+@Composable
+fun MainMenu() //Dine in or Take out
+{
+    var boxWidth: Int = 175
+    var boxHeight: Int = 225
+    var textSize: Int = 20
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    )
+    {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = "Welcome to Crabby Shack!",
+                textAlign = TextAlign.Center,
+                fontSize = 25.sp
+            )
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        )
+        {
+            Button(
+                onClick = {
+                    //Code for Dine-in to be passed using Intent
+                },
+                modifier = Modifier
+                    .width(boxWidth.dp)
+                    .height(boxHeight.dp)
+                    .padding(20.dp),
+
+                shape = RoundedCornerShape(10.dp)
+            )
+            {
+                Text(
+                    text = "Dine-in",
+                    fontSize = textSize.sp
+                )
+            }
+
+            Button(
+                onClick = {
+                    //Code for Takeout to be passed using Intent
+                },
+                modifier = Modifier
+                    .width(boxWidth.dp)
+                    .height(boxHeight.dp)
+                    .padding(20.dp),
+
+                shape = RoundedCornerShape(10.dp)
+            )
+            {
+                Text(
+                    text = "Takeout",
+                    fontSize = textSize.sp
+                )
+            }
+        }
+    }
 }
