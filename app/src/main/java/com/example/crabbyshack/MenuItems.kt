@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,6 +24,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -43,7 +48,7 @@ class MenuItems : ComponentActivity() {
 
         setContent {
             CrabbyShackTheme {
-                MenuLayout(orderType)
+                MenuLayout()
             }
         }
     }
@@ -51,7 +56,7 @@ class MenuItems : ComponentActivity() {
 
 @Preview (widthDp = 393, heightDp = 851)
 @Composable
-fun MenuLayout(orderType: String)
+fun MenuLayout()
 {
     Box(
         modifier = Modifier
@@ -68,8 +73,62 @@ fun MenuLayout(orderType: String)
         )
         {
             //Menu Items
-            Text(orderType)
+            Items()
         }
     }
 }
+
+@Composable
+fun Items()
+{
+    var burgerCount by remember { mutableStateOf(0) }
+    var friesCount by remember { mutableStateOf(0) }
+    var sodaCount by remember { mutableStateOf(0) }
+    var iceCreamCount by remember { mutableStateOf(0) }
+
+    // Calculate total
+    val total = (burgerCount * 150) +
+            (friesCount * 80) +
+            (sodaCount * 50) +
+            (iceCreamCount * 60)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("You selected: Dine Take", style = MaterialTheme.typography.headlineSmall)
+        Text("Select your items:", style = MaterialTheme.typography.titleMedium)
+
+        Row(
+
+        )
+        {
+            Button(onClick = {  }) {
+                Text("Burger\n₱150")
+            }
+
+            Button(onClick = { friesCount++ }) {
+                Text("Fries\n₱80")
+            }
+        }
+
+        Row(
+
+        )
+        {
+            Button(onClick = { sodaCount++ }) {
+                Text("Soda\n₱50")
+            }
+
+            Button(onClick = { iceCreamCount++ }) {
+                Text("Ice Cream\n₱60")
+            }
+        }
+    }
+}
+
+//suspend fun for order_items
 
