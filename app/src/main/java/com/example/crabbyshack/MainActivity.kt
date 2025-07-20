@@ -108,7 +108,7 @@ fun MainMenu() //Dine in or Take out
                 onClick = {
                     //Code for Dine-in to be passed using Intent
                     val intent = Intent(context, MenuItems::class.java)
-                    intent.putExtra("orderType", "Dine In")
+                    intent.putExtra("orderType", "DineIn")
                     context.startActivity(intent)
                 },
                 modifier = Modifier
@@ -129,7 +129,7 @@ fun MainMenu() //Dine in or Take out
                 onClick = {
                     //Code for Takeout to be passed using Intent
                     val intent = Intent(context, MenuItems::class.java)
-                    intent.putExtra("orderType", "Take out")
+                    intent.putExtra("orderType", "Takeout")
                     context.startActivity(intent)
                 },
                 modifier = Modifier

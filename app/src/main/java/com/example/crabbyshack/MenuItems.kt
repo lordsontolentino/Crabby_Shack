@@ -1,7 +1,9 @@
 package com.example.crabbyshack
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -27,19 +29,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.LinkAnnotation.Url
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.crabbyshack.ui.theme.CrabbyShackTheme
+import kotlinx.coroutines.launch
+
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.client.call.body
+import io.ktor.client.statement.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import io.ktor.http.encodeURLParameter
+
 
 class MenuItems : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -48,91 +65,98 @@ class MenuItems : ComponentActivity() {
 
         setContent {
             CrabbyShackTheme {
-                MenuLayout()
+                MenuLayout(orderType)
             }
         }
     }
-}
-
-@Preview (widthDp = 393, heightDp = 851)
-@Composable
-fun MenuLayout()
-{
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        contentAlignment = Alignment.Center
-    )
+    //@Preview (widthDp = 393, heightDp = 851)
+    @Composable
+    fun MenuLayout(orderType: String)
     {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            contentAlignment = Alignment.Center
+        )
+        {
+            Column(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            )
+            {
+                Items(orderType)
+            }
+        }
+    }
+
+    @Composable
+    fun Items(orderType: String)
+    {
+        val mContext = LocalContext.current
+        val coroutineScope = rememberCoroutineScope()
+
         Column(
             modifier = Modifier
-                .padding(5.dp)
-                .fillMaxWidth(),
+                .fillMaxSize()
+                .padding(32.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        )
-        {
-            //Menu Items
-            Items()
-        }
-    }
-}
+        ) {
+            Text("You selected: $orderType", style = MaterialTheme.typography.headlineSmall)
+            Text("Select your items:", style = MaterialTheme.typography.titleMedium)
 
-@Composable
-fun Items()
-{
-    var burgerCount by remember { mutableStateOf(0) }
-    var friesCount by remember { mutableStateOf(0) }
-    var sodaCount by remember { mutableStateOf(0) }
-    var iceCreamCount by remember { mutableStateOf(0) }
+            Row(
 
-    // Calculate total
-    val total = (burgerCount * 150) +
-            (friesCount * 80) +
-            (sodaCount * 50) +
-            (iceCreamCount * 60)
+            )
+            {
+                Button(onClick = {
+                    coroutineScope.launch{
+                        orders(mContext, "Calamares", "150", orderType)
+                    }
+                }) {
+                    Text("Calamares\n₱150")
+                }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("You selected: Dine Take", style = MaterialTheme.typography.headlineSmall)
-        Text("Select your items:", style = MaterialTheme.typography.titleMedium)
-
-        Row(
-
-        )
-        {
-            Button(onClick = {  }) {
-                Text("Calamares\n₱150")
-                // make it like:
-                // name = Calamares
-                // price = 150
-                // inititate variables above
+                Button(onClick = {  }) {
+                    Text("Tilapia\n₱80")
+                }
             }
 
-            Button(onClick = { friesCount++ }) {
-                Text("Tilapia\n₱80")
-            }
-        }
+            Row(
 
-        Row(
+            )
+            {
+                Button(onClick = {  }) {
+                    Text("Soda\n₱50")
+                }
 
-        )
-        {
-            Button(onClick = { sodaCount++ }) {
-                Text("Soda\n₱50")
-            }
-
-            Button(onClick = { iceCreamCount++ }) {
-                Text("Ice Cream\n₱60")
+                Button(onClick = {  }) {
+                    Text("Ice Cream\n₱60")
+                }
             }
         }
     }
+
+    suspend fun orders(context: Context, name:String, price: String, order_type: String)
+    {
+        val client = HttpClient(CIO)
+
+        val response: HttpResponse = client.get(
+//            "http://10.0.2.2:80/CrabbyShack/REST/orders.php?name=Shrimp&price=170&order_type=DineIn"
+            "http://10.0.2.2:80/CrabbyShack/REST/orders.php?"
+                    +"name=" + name + "&price=" + price + "&order_type=" + order_type
+        )
+        val stringBody: String = response.body<String>().toString()
+        println(response.status.toString())
+        println(stringBody)
+        println("$name, $price, $order_type")
+        Toast.makeText(context, stringBody, Toast.LENGTH_SHORT).show()
+        client.close()
+    }
 }
 
-//suspend fun for order_items
+
 
