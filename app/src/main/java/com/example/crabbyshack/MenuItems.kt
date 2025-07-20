@@ -107,11 +107,15 @@ fun Items()
         )
         {
             Button(onClick = {  }) {
-                Text("Burger\n₱150")
+                Text("Calamares\n₱150")
+                // make it like:
+                // name = Calamares
+                // price = 150
+                // inititate variables above
             }
 
             Button(onClick = { friesCount++ }) {
-                Text("Fries\n₱80")
+                Text("Tilapia\n₱80")
             }
         }
 
