@@ -1,5 +1,6 @@
 package com.example.crabbyshack
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -71,9 +72,9 @@ class MenuItems : ComponentActivity() {
         }
     }
 
-    @Preview (widthDp = 393, heightDp = 851)
+    //@Preview (widthDp = 393, heightDp = 851)
     @Composable
-    fun MenuLayout(orderType: String = "Dine in")
+    fun MenuLayout(orderType: String)
     {
         Box(
             modifier = Modifier
@@ -123,6 +124,14 @@ class MenuItems : ComponentActivity() {
                 Button(onClick = {
                     coroutineScope.launch{
                         orders(mContext, "Calamares", "150", orderType)
+
+                        val intent = Intent(mContext, OrderComplete::class.java)
+                        mContext.startActivity(intent)
+
+                        //Finish the current activity to prevent going back
+                        if (mContext is Activity) {
+                            (mContext as Activity).finish()
+                        }
                     }
                 },
                     modifier = Modifier
@@ -140,6 +149,13 @@ class MenuItems : ComponentActivity() {
                 Button(onClick = {
                     coroutineScope.launch{
                         orders(mContext, "Tilapia", "100", orderType)
+
+                        val intent = Intent(mContext, OrderComplete::class.java)
+                        mContext.startActivity(intent)
+
+                        if (mContext is Activity) {
+                            (mContext as Activity).finish()
+                        }
                     }
                 },
                     modifier = Modifier
@@ -164,6 +180,13 @@ class MenuItems : ComponentActivity() {
                 Button(onClick = {
                     coroutineScope.launch{
                         orders(mContext, "Daing", "60", orderType)
+
+                        val intent = Intent(mContext, OrderComplete::class.java)
+                        mContext.startActivity(intent)
+
+                        if (mContext is Activity) {
+                            (mContext as Activity).finish()
+                        }
                     }
                 },
                     modifier = Modifier
@@ -171,12 +194,23 @@ class MenuItems : ComponentActivity() {
                         .height(boxHeight.dp)
                         .padding(20.dp),
                     shape = RoundedCornerShape(10.dp)) {
-                    Text("Daing\n₱60")
+                    Text(
+                        text = "Daing\n₱60",
+                        fontSize = textSize.sp,
+                        textAlign = TextAlign.Center
+                    )
                 }
 
                 Button(onClick = {
                     coroutineScope.launch{
                         orders(mContext, "Kinilaw", "100", orderType)
+
+                        val intent = Intent(mContext, OrderComplete::class.java)
+                        mContext.startActivity(intent)
+
+                        if (mContext is Activity) {
+                            (mContext as Activity).finish()
+                        }
                     }
                 },
                     modifier = Modifier
@@ -184,7 +218,11 @@ class MenuItems : ComponentActivity() {
                         .height(boxHeight.dp)
                         .padding(20.dp),
                     shape = RoundedCornerShape(10.dp)) {
-                    Text("Kinilaw\n₱100")
+                    Text(
+                        text = "Kinilaw\n₱100",
+                        fontSize = textSize.sp,
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
         }

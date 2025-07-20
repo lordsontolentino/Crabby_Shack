@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Crabby Shack</string>
     <string name="title_activity_menu_items">MenuItems</string>
+    <string name="title_activity_order_complete">OrderComplete</string>
 </resources>
