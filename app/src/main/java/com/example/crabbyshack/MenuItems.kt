@@ -33,6 +33,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
@@ -69,14 +70,15 @@ class MenuItems : ComponentActivity() {
             }
         }
     }
-    //@Preview (widthDp = 393, heightDp = 851)
+
+    @Preview (widthDp = 393, heightDp = 851)
     @Composable
-    fun MenuLayout(orderType: String)
+    fun MenuLayout(orderType: String = "Dine in")
     {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+                .background(Color(0xFFcef9ff)),
             contentAlignment = Alignment.Center
         )
         {
@@ -98,10 +100,13 @@ class MenuItems : ComponentActivity() {
         val mContext = LocalContext.current
         val coroutineScope = rememberCoroutineScope()
 
+        var boxWidth: Int = 175
+        var boxHeight: Int = 225
+        var textSize: Int = 16
+
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(32.dp),
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -109,32 +114,77 @@ class MenuItems : ComponentActivity() {
             Text("Select your items:", style = MaterialTheme.typography.titleMedium)
 
             Row(
-
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             )
             {
                 Button(onClick = {
                     coroutineScope.launch{
                         orders(mContext, "Calamares", "150", orderType)
                     }
-                }) {
-                    Text("Calamares\n₱150")
+                },
+                    modifier = Modifier
+                        .width(boxWidth.dp)
+                        .height(boxHeight.dp)
+                        .padding(20.dp),
+                    shape = RoundedCornerShape(10.dp)) {
+                    Text(
+                        text = "Calamares\n₱150",
+                        fontSize = textSize.sp,
+                        textAlign = TextAlign.Center
+                    )
                 }
 
-                Button(onClick = {  }) {
-                    Text("Tilapia\n₱80")
+                Button(onClick = {
+                    coroutineScope.launch{
+                        orders(mContext, "Tilapia", "100", orderType)
+                    }
+                },
+                    modifier = Modifier
+                        .width(boxWidth.dp)
+                        .height(boxHeight.dp)
+                        .padding(20.dp),
+                    shape = RoundedCornerShape(10.dp)) {
+                    Text(
+                        text = "Tilapia\n₱100",
+                        fontSize = textSize.sp
+                    )
                 }
             }
 
             Row(
-
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             )
             {
-                Button(onClick = {  }) {
-                    Text("Soda\n₱50")
+                Button(onClick = {
+                    coroutineScope.launch{
+                        orders(mContext, "Daing", "60", orderType)
+                    }
+                },
+                    modifier = Modifier
+                        .width(boxWidth.dp)
+                        .height(boxHeight.dp)
+                        .padding(20.dp),
+                    shape = RoundedCornerShape(10.dp)) {
+                    Text("Daing\n₱60")
                 }
 
-                Button(onClick = {  }) {
-                    Text("Ice Cream\n₱60")
+                Button(onClick = {
+                    coroutineScope.launch{
+                        orders(mContext, "Kinilaw", "100", orderType)
+                    }
+                },
+                    modifier = Modifier
+                        .width(boxWidth.dp)
+                        .height(boxHeight.dp)
+                        .padding(20.dp),
+                    shape = RoundedCornerShape(10.dp)) {
+                    Text("Kinilaw\n₱100")
                 }
             }
         }
