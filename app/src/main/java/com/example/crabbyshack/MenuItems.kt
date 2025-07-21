@@ -82,6 +82,7 @@ class MenuItems : ComponentActivity() {
                 .background(Color(0xFFcef9ff)),
             contentAlignment = Alignment.Center
         )
+
         {
             Column(
                 modifier = Modifier

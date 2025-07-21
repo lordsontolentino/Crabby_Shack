@@ -105,6 +105,7 @@ fun ThankYou() {
                 color = Color.Black
             )
 
+
             Text(
                 text = "Please proceed to the counter, present the order number and pay via cash to complete your order. Thank you very much!",
                 fontSize = 14.sp,
