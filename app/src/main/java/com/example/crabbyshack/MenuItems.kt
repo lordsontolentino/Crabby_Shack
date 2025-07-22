@@ -124,9 +124,10 @@ class MenuItems : ComponentActivity() {
             {
                 Button(onClick = {
                     coroutineScope.launch{
-                        orders(mContext, "Calamares", "150", orderType)
+                        val id = orders(mContext, "Calamares", "150", orderType)
 
                         val intent = Intent(mContext, OrderComplete::class.java)
+                        intent.putExtra("order_id", id)
                         mContext.startActivity(intent)
 
                         //Finish the current activity to prevent going back
@@ -149,9 +150,10 @@ class MenuItems : ComponentActivity() {
 
                 Button(onClick = {
                     coroutineScope.launch{
-                        orders(mContext, "Tilapia", "100", orderType)
+                        val id = orders(mContext, "Tilapia", "100", orderType)
 
                         val intent = Intent(mContext, OrderComplete::class.java)
+                        intent.putExtra("order_id", id)
                         mContext.startActivity(intent)
 
                         if (mContext is Activity) {
@@ -180,9 +182,10 @@ class MenuItems : ComponentActivity() {
             {
                 Button(onClick = {
                     coroutineScope.launch{
-                        orders(mContext, "Daing", "60", orderType)
+                        val id = orders(mContext, "Daing", "60", orderType)
 
                         val intent = Intent(mContext, OrderComplete::class.java)
+                        intent.putExtra("order_id", id)
                         mContext.startActivity(intent)
 
                         if (mContext is Activity) {
@@ -204,9 +207,10 @@ class MenuItems : ComponentActivity() {
 
                 Button(onClick = {
                     coroutineScope.launch{
-                        orders(mContext, "Kinilaw", "100", orderType)
+                        val id = orders(mContext, "Kinilaw", "100", orderType)
 
                         val intent = Intent(mContext, OrderComplete::class.java)
+                        intent.putExtra("order_id", id)
                         mContext.startActivity(intent)
 
                         if (mContext is Activity) {
@@ -229,7 +233,7 @@ class MenuItems : ComponentActivity() {
         }
     }
 
-    suspend fun orders(context: Context, name:String, price: String, order_type: String)
+    suspend fun orders(context: Context, name:String, price: String, order_type: String): String
     {
         val client = HttpClient(CIO)
 
@@ -238,12 +242,14 @@ class MenuItems : ComponentActivity() {
             "http://10.0.2.2:80/CrabbyShack/REST/orders.php?"
                     +"name=" + name + "&price=" + price + "&order_type=" + order_type
         )
-        val stringBody: String = response.body<String>().toString()
-        println(response.status.toString())
-        println(stringBody)
-        println("$name, $price, $order_type")
-        Toast.makeText(context, stringBody, Toast.LENGTH_SHORT).show()
+        val stringBody: String = response.bodyAsText().trim()
+        //println(response.status.toString())
+        //println(stringBody)
+        //println("$name, $price, $order_type")
+        //Toast.makeText(context, stringBody, Toast.LENGTH_SHORT).show()
         client.close()
+
+        return stringBody
     }
 }
 

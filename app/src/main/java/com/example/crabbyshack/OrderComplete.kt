@@ -42,18 +42,19 @@ import com.example.crabbyshack.ui.theme.CrabbyShackTheme
 class OrderComplete : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val orderId = intent.getStringExtra("order_id") ?: "Unknown"
         enableEdgeToEdge()
         setContent {
             CrabbyShackTheme {
-                ThankYou()
+                ThankYou(orderId)
             }
         }
     }
 }
 
-@Preview (widthDp = 393, heightDp = 851)
+//@Preview (widthDp = 393, heightDp = 851)
 @Composable
-fun ThankYou() {
+fun ThankYou(orderId: String) {
     val context = LocalContext.current
 
     Box(
@@ -99,7 +100,7 @@ fun ThankYou() {
             )
 
             Text(
-                text = "#0001",
+                text = "#" + "$orderId",
                 fontSize = 48.sp,
                 fontWeight = FontWeight.Black,
                 color = Color.Black
