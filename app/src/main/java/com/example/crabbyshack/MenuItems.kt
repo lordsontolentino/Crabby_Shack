@@ -256,13 +256,21 @@ class MenuItems : ComponentActivity() {
         }
     }
 
-    suspend fun orders(context: Context, name: String, price: String, order_type: String) {
+    suspend fun orders(context: Context, name:String, price: String, order_type: String): String
+    {
         val client = HttpClient(CIO)
+
         val response: HttpResponse = client.get(
-            "http://10.0.2.2:80/CrabbyShack/REST/orders.php?name=$name&price=$price&order_type=$order_type"
+//            "http://10.0.2.2:80/CrabbyShack/REST/orders.php?name=Shrimp&price=170&order_type=DineIn"
+            "http://10.0.2.2:80/CrabbyShack/REST/orders.php?"
+                    +"name=" + name + "&price=" + price + "&order_type=" + order_type
         )
-        val stringBody: String = response.body()
-        Toast.makeText(context, stringBody, Toast.LENGTH_SHORT).show()
+        val stringBody: String = response.bodyAsText().trim()
+        //println(response.status.toString())
+        //println(stringBody)
+        //Toast.makeText(context, stringBody, Toast.LENGTH_SHORT).show()
         client.close()
+
+        return stringBody
     }
 }
