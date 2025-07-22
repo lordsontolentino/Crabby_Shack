@@ -245,7 +245,6 @@ class MenuItems : ComponentActivity() {
         val stringBody: String = response.bodyAsText().trim()
         //println(response.status.toString())
         //println(stringBody)
-        //println("$name, $price, $order_type")
         //Toast.makeText(context, stringBody, Toast.LENGTH_SHORT).show()
         client.close()
 

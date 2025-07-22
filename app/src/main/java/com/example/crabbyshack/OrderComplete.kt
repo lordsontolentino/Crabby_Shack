@@ -42,7 +42,9 @@ import com.example.crabbyshack.ui.theme.CrabbyShackTheme
 class OrderComplete : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val orderId = intent.getStringExtra("order_id") ?: "Unknown"
+
         enableEdgeToEdge()
         setContent {
             CrabbyShackTheme {
