@@ -56,7 +56,7 @@ class OrderComplete : ComponentActivity() {
 
 //@Preview (widthDp = 393, heightDp = 851)
 @Composable
-fun ThankYou(orderID: String) {
+fun ThankYou(orderId: String) {
     val context = LocalContext.current
 
     Box(
@@ -102,7 +102,7 @@ fun ThankYou(orderID: String) {
             )
 
             Text(
-                text = orderID,
+                text = "#" + "$orderId",
                 fontSize = 48.sp,
                 fontWeight = FontWeight.Black,
                 color = Color.Black
