@@ -91,7 +91,7 @@ fun CenteredContent() {
         verticalArrangement = Arrangement.spacedBy(24.dp),
         modifier = Modifier
             .wrapContentHeight()
-            .wrapContentWidth() // << changed from fillMaxWidth
+            .wrapContentWidth()
     ) {
         Header()
         DiningOptions()
